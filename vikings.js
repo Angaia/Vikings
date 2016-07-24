@@ -1,5 +1,5 @@
 //-----------VIKINGS EXERCISE--------------
-//-----There are 2 possible battles here:
+//-----There are 2 battles here:
 //----------- · Vikings vs vikings (practice function)
 //----------- · Vikings vs Saxons (battle.fight)
 //---------------------------------------------------------------------------------------
@@ -90,13 +90,17 @@ var saxonsLengthOriginal = saxons.length;
 
 
 // ---------------------- BATTLE VIKINGS VS SAXONS ---------------------------------------
-// There is a turn limit of 7. The team with more people alive would win (So sometimes Saxons might win)
+// There is a turn limit of 7. The team with more people alive would win (So sometimes Saxons might win).
+// Fighters are randomly assigned.
+// They attack AT THE SAME TIME so we always see their attack and remaining life
+// When one beats the other, that one passes to the next opponent with his remaining health points
 
 var battle = new Pit(vikings, saxons);
-battle.fighter1 = vikings[vikingsRandomIndex];
-battle.fighter2 = saxons[saxonsRandomIndex];
+battle.viking = vikings[vikingsRandomIndex];
+battle.saxon = saxons[saxonsRandomIndex];
 
 var turn = 1;
+
 console.log('\n------------------------------------------------\n/////// THE REAL BATTLE VIKINGS VS SAXONS BEGGINS //////\n------------------------------------------------\n')
 console.log('VIKINGS ENTER TO THE VILLAGE AND YELL THEIR WARCRIES');
 console.log ( vi1.name + ' shouts ' + vi1.warcry);
@@ -104,52 +108,51 @@ console.log ( vi2.name + ' shouts ' + vi2.warcry);
 console.log ( vi3.name + ' shouts ' + vi3.warcry);
 console.log('--------------------------------\n--------------------------------');
 console.log('The first two opponents are:');
-console.log(battle.fighter1);
+console.log(battle.viking);
 
-console.log(battle.fighter1);
+console.log(battle.viking);
 console.log('VERSUS');
-console.log(battle.fighter2);
+console.log(battle.saxon);
 console.log('--------------------------------');
 
 battle.fight = function () { 
 	while (vikings.length !== 0 && saxons.length !== 0) {
-		if (this.fighter1.health > 0 && this.fighter2.health > 0)
+		if (this.viking.health > 0 && this.saxon.health > 0)
 
-		this.fighter2.health = this.fighter2.health - this.fighter1.strength;
-		this.fighter1.health = this.fighter1.health - this.fighter2.strength;
+		this.saxon.health = this.saxon.health - this.viking.strength;
+		this.viking.health = this.viking.health - this.saxon.strength;
 		console.log('--------------------------------');
 		console.log('\n//////////////  TURN ' + (turn ++) + '  ////////////////');
-		console.log(this.fighter1.name + ' causes ' + this.fighter1.strength + ' damage points');
-		console.log(this.fighter2.name + ' health is ' + this.fighter2.health);
-		console.log(this.fighter2.name + ' causes ' + this.fighter2.strength + ' damage points');
-		console.log(this.fighter1.name + ' health is ' + this.fighter1.health);
+		console.log(this.viking.name + ' causes ' + this.viking.strength + ' damage points');
+		console.log(this.saxon.name + ' health is ' + this.saxon.health);
+		console.log(this.saxon.name + ' causes ' + this.saxon.strength + ' damage points');
+		console.log(this.viking.name + ' health is ' + this.viking.health);
 
 		if (turn === 8) {
 			return;
 		}
 
-		if (this.fighter1.health < this.fighter2.strength) {
-			console.log ('---- ' + this.fighter1.name + ' is dead ----');
-			winner = this.fighter2.name;
-			vikingsThatDied.push(this.fighter1);
+		if (this.viking.health < this.saxon.strength) {
+			console.log ('---- ' + this.viking.name + ' is dead ----');
+			winner = this.saxon.name;
+			vikingsThatDied.push(this.viking);
 			vikings = vikings.slice(1, vikings.length);
-			this.fighter1 = vikings[0];
+			this.viking = vikings[0];
 			console.log('//////////  ' + winner + ' IS STILL ALIVE and goes to the next opponent ////////');
 		}
 
-		if (this.fighter2.health < this.fighter1.strength ) {
-			console.log ('----- ' + this.fighter2.name + ' is dead -----');
-			winner = this.fighter1.name;
-			saxonsThatDied.push(this.fighter2);
+		if (this.saxon.health < this.viking.strength ) {
+			console.log ('----- ' + this.saxon.name + ' is dead -----');
+			winner = this.viking.name;
+			saxonsThatDied.push(this.saxon);
 			saxons = saxons.slice(1, saxons.length);
-			this.fighter2 = saxons[0];
+			this.saxon = saxons[0];
 			console.log('//////////  ' + winner + ' IS STILL ALIVE and goes to the next opponent ////////');
 		} 
 	};
 };
 
-// COMPARE DEADS AND WHO WON
-
+// COMPARATION OF DEATHS AND WHO WON
 function compareDeaths () {
 	var saxonsDead = (saxonsThatDied.length * 100) / saxonsLengthOriginal;
 	var vikingsDead = (vikingsThatDied.length * 100) / vikingsLengthOriginal;
