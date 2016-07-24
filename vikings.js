@@ -152,10 +152,12 @@ battle.fight = function () {
 	};
 };
 
-// COMPARATION OF DEATHS AND WHO WON
+// COMPARATION OF DEATHS AND WHO WON in %
 function compareDeaths () {
 	var saxonsDead = (saxonsThatDied.length * 100) / saxonsLengthOriginal;
 	var vikingsDead = (vikingsThatDied.length * 100) / vikingsLengthOriginal;
+
+	console.log('\n-------------' + saxonsDead + ' % of the saxons are dead and ' + vikingsDead + ' % of the vikings died. -----------------');
 
  	if (saxonsDead < vikingsDead) {
  		console.log('\n-------------------------------- saxons HAVE WON!! HOW COULD THAT HAPPEN??? THEY RUN AWAY WITH MAGIC TO PLAN THEIR REVENGE --------------------------------\n');
@@ -164,8 +166,6 @@ function compareDeaths () {
  	if (vikingsDead < saxonsDead) {
  		console.log('\n------------ THE GREAT VIKINGS HAVE WON!!! LETS GET SOME BEER!!!! ------------\n');
  	}
- 		console.log(saxonsDead + ' % of the saxons are dead and ' + vikingsDead + ' % of the vikings are still alive.');
-
 }
 
 battle.fight();
